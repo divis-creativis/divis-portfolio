@@ -35,6 +35,12 @@ const projects = [
     cover: 'https://picsum.photos/seed/eurovision/600/400',
     page: 'projects/eurovision.html'
   },
+    {
+    id: 'rocket',
+    name: 'rocket',
+    cover: 'rocket.gif',
+    page: 'projects/eurovision.html'
+  },
   {
     id: 'bravefactory',
     name: 'bravefactory',
