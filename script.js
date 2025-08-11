@@ -14,7 +14,7 @@ const projects = [
   {
     id: 'chornobyl',
     name: 'chornobyl',
-    cover: 'https://picsum.photos/seed/chornobyl/600/400',
+    cover: 'projects/img/chornobyl.jpg',
     page: 'projects/chornobyl.html'
   },
   {
