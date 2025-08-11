@@ -38,7 +38,7 @@ const projects = [
   {
     id: 'rocket',
     name: 'rocket',
-    cover: 'rocket.gif',
+    cover: 'projects/img/rocket.gif',
     page: 'projects/eurovision.html'
   },
   {
