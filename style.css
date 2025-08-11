@@ -1,0 +1,114 @@
+/* Загальні стилі для сайту divis portfolio */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    color: #000000;
+    line-height: 1.4;
+}
+
+header {
+    padding: 1rem 1.5rem;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #000000;
+    display: inline-block;
+}
+
+/* Контейнер карток проектів використовує CSS Grid для гнучкого розташування */
+.projects-container {
+    display: grid;
+    gap: 2rem;
+    padding: 1rem 1.5rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    box-sizing: border-box;
+}
+
+/* Стилі для карток проектів */
+.project-card {
+    cursor: pointer;
+}
+
+.project-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+}
+
+.project-card p {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: lowercase;
+}
+
+/* Стилі для сторінок проєктів */
+.project-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    box-sizing: border-box;
+}
+
+.project-container h1 {
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.project-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+/* Контейнер для вбудованих відео з підтримкою адаптивності (16:9) */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    overflow: hidden;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Стилі для футера */
+.footer {
+    padding: 1rem 1.5rem;
+    font-size: 0.85rem;
+    color: #666666;
+}
+
+.footer-note {
+    margin: 0;
+}
+
+/* Адаптивність: збільшуємо відступи на великих екранах */
+@media (min-width: 1024px) {
+    .projects-container {
+        padding: 2rem 3rem 3rem;
+        gap: 2.5rem;
+    }
+    header {
+        padding: 2rem 3rem;
+    }
+}
