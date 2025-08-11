@@ -7,8 +7,8 @@
 const projects = [
   {
     id: 'crimetree',
-    name: 'crimetreeeeeee',
-    cover: 'projects/img/crimetree.gif',
+    name: 'crimetree',
+    cover: 'img/crimetree.gif',
     page: 'projects/crimetree.html'
   },
   {
@@ -20,31 +20,31 @@ const projects = [
   {
     id: 'bud',
     name: 'bud',
-    cover: 'https://picsum.photos/seed/bud/600/400',
+    cover: 'img/bud_book.gif',
     page: 'projects/bud.html'
   },
   {
     id: 'goodwine',
     name: 'goodwine',
-    cover: 'https://picsum.photos/seed/goodwine/600/400',
+    cover: 'img/goodwine.gif',
     page: 'projects/goodwine.html'
   },
   {
     id: 'eurovision',
     name: 'eurovision',
-    cover: 'https://picsum.photos/seed/eurovision/600/400',
+    cover: 'img/eurovision.gif',
     page: 'projects/eurovision.html'
   },
   {
     id: 'rocket',
     name: 'rocket',
-    cover: 'projects/img/rocket.gif',
+    cover: 'img/rocket.gif',
     page: 'projects/eurovision.html'
   },
   {
     id: 'bravefactory',
     name: 'bravefactory',
-    cover: 'https://picsum.photos/seed/bravefactory/600/400',
+    cover: 'img/brave.gif',
     page: 'projects/bravefactory.html'
   }
 ];
