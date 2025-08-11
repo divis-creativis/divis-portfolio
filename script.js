@@ -14,7 +14,7 @@ const projects = [
   {
     id: 'chornobyl',
     name: 'chornobyl',
-    cover: 'projects/img/chornobyl.jpg',
+    cover: 'img/chornobyl.jpg',
     page: 'projects/chornobyl.html'
   },
   {
