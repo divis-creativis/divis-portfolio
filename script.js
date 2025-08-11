@@ -8,7 +8,7 @@ const projects = [
   {
     id: 'crimetree',
     name: 'crimetree',
-    cover: 'https://picsum.photos/seed/crimetree/600/400',
+    cover: 'projects/img/crimetree.gif',
     page: 'projects/crimetree.html'
   },
   {
