@@ -52,7 +52,7 @@ const projects = [
 /**
  * Функція для генерації карток проєктів на головній сторінці.
  */
-/**
+
 function loadProjects() {
   const container = document.getElementById('projects-container');
   if (!container) return;
@@ -71,4 +71,4 @@ function loadProjects() {
 
 // Ініціалізуємо завантаження проєктів після завантаження DOM
 document.addEventListener('DOMContentLoaded', loadProjects);
-*/
+
