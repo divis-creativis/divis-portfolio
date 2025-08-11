@@ -7,7 +7,7 @@
 const projects = [
   {
     id: 'crimetree',
-    name: 'crimetree',
+    name: 'crimetreeeeeee',
     cover: 'img/crimetree.gif',
     page: 'projects/crimetree.html'
   },
