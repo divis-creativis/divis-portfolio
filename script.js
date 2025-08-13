@@ -35,12 +35,12 @@ const projects = [
     cover: 'img/eurovision.gif',
     page: 'projects/eurovision.html'
   },
-  {
+  /**{
     id: 'rocket',
     name: 'rocket',
     cover: 'img/rocket.gif',
     page: 'projects/eurovision.html'
-  },
+  },*/
   {
     id: 'bravefactory',
     name: 'bravefactory',
