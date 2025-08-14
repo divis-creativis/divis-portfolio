@@ -6,13 +6,9 @@
 <title>Designer Game</title>
 <style>
   :root{
-    --bg:#0e6dfd;         /* яскравий фон */
-    --bg2:#7fddff;        /* градієнт до низу */
-    --hud:#0b1021;        /* темний текст на світлому */
-    --chip:#ffffff;
-    --accent:#ff7d00;
-    --accent2:#00c38a;
-    --danger:#ff2b6a;
+    --bg:#0e6dfd; --bg2:#7fddff;
+    --hud:#0b1021; --chip:#ffffff;
+    --accent:#ff7d00; --accent2:#00c38a; --danger:#ff2b6a;
   }
   html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--hud);overflow:hidden}
   #gameWrap{position:relative;width:100vw;height:100vh}
@@ -47,7 +43,7 @@
 
   <div class="hud" id="hud">
     <div class="chip">Time: <span id="time">0.0s</span></div>
-    <div class="chip good">Points: <span id="points">10000</span></div>
+    <div class="chip good">Money: <span id="points">10000</span></div>
     <div class="chip">Speed: <span id="speed">1.0x</span></div>
     <div class="chip bad">Attached: <span id="mon">0</span></div>
     <div class="chip accent">Best: <span id="best">0.0s</span></div>
@@ -56,15 +52,12 @@
   <div class="overlay" id="overlay">
     <div class="card">
       <h1>Designer Game</h1>
-      <p><b>Goal:</b> Jump over obstacles and <i>survive as long as possible</i> in the graphic-design world.</p>
-      <p><b>Rules:</b> You start with <b>10,000 points</b>. Each app-monster that touches you <b>attaches</b> and <b>drains points</b> over time. Speed increases — last as long as you can!</p>
+      <p><b>Goal:</b> Survive as long as possible in the graphic-design world.</p>
+      <p><b>Money = Life:</b> Починаєте з <b>10,000</b>. Монстри, що прилипли, <b>знімають гроші щосекунди</b>. Збирайте <b>монети</b>, щоб триматися довше!</p>
       <div class="tips">
-        <div><b>Controls</b><br/>Tap / Click or press <b>Space</b> / <b>↑</b> to jump. <b>P</b> to pause. <b>R</b> to retry.</div>
-        <div><b>Obstacles</b><br/>Spikes, wheels, drones, and pits. Monsters carry design-app logos and stick to you if touched.</div>
-        <div><b>Audio</b><br/>Funny synthesized sounds for jumps, hits, speed ups, attach, pit fall & game over.</div>
-      </div>
-      <div class="legend">
-        <b>Use your SVG logos</b> — open this file and paste your SVG markup into the <code>ICONS</code> section (look for “PASTE ICON SVGs HERE”). No external files required.
+        <div><b>Controls</b><br/>Tap / Click або <b>Space</b>/<b>↑</b> — стрибок. <b>P</b> — пауза. <b>R</b> — ще раз.</div>
+        <div><b>Новинка</b><br/>Платформи (як у Mario): сідайте зверху, знизу проходите наскрізь. Монети над платформами і біля землі.</div>
+        <div><b>Об’єкти</b><br/>Шипи, колеса, дрони, ями. Логотип-монстри — прилипають і висмоктують гроші.</div>
       </div>
       <button class="btn" id="startBtn">Start</button>
     </div>
@@ -75,30 +68,18 @@
 
 <script>
 (() => {
-  // ======== (1) OPTIONAL: PASTE ICON SVGs HERE =========
-  const ICONS = {
-    /* приклад:
-       ChatGPT: `<svg viewBox="0 0 256 256" ...>...</svg>`
-       Якщо не вставляєте, буде fallback-плашка з назвою.
-    */
-  };
-
-  // Перетворення inline SVG → <img> data URL (без replaceAll для сумісності)
+  // ======== (1) Icons (опційно вставте ваші SVG) =========
+  const ICONS = { /* ChatGPT:`<svg ...>...</svg>` */ };
   const iconImgs = {};
   for(const k in ICONS){
     if(ICONS[k] && ICONS[k].trim()){
-      const svg = ICONS[k].trim()
-        .replace(/\n+/g,' ')
-        .replace(/>\s+</g,'><');
+      const svg = ICONS[k].trim().replace(/\n+/g,' ').replace(/>\s+</g,'><');
       const data = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
-      const img = new Image();
-      img.decoding = 'async';
-      img.src = data;
-      iconImgs[k] = img;
+      const img = new Image(); img.decoding='async'; img.src=data; iconImgs[k]=img;
     }
   }
 
-  // ======== (2) Canvas sizing =========
+  // ======== (2) Canvas =========
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
   let W=innerWidth, H=innerHeight;
@@ -135,19 +116,19 @@
     beep({freq=440, dur=0.12, type='sine', vol=0.2, slide=0}={}){
       if(!this.ctx) return;
       const t=this.ctx.currentTime, o=this.ctx.createOscillator(), g=this.ctx.createGain();
-      o.type=type; o.frequency.value=freq;
-      g.gain.value=0;
+      o.type=type; o.frequency.value=freq; g.gain.value=0;
       o.connect(g); g.connect(this.ctx.destination);
       g.gain.linearRampToValueAtTime(vol, t+0.01);
       if(slide) o.frequency.linearRampToValueAtTime(freq+slide, t+dur);
       g.gain.linearRampToValueAtTime(0.0001, t+dur);
       o.start(t); o.stop(t+dur+0.02);
     },
-    jump(){ this.beep({freq:540, dur:0.11, type:'triangle', vol:0.28, slide:150}); },
+    jump(){ this.beep({freq:560, dur:0.12, type:'triangle', vol:0.28, slide:160}); },
     attach(){ this.beep({freq:220, dur:0.20, type:'sawtooth', vol:0.28, slide:-140}); },
     speedUp(){ this.beep({freq:820, dur:0.15, type:'square', vol:0.24, slide:220}); },
     hit(){ this.beep({freq:160, dur:0.12, type:'square', vol:0.27, slide:-80}); },
     pit(){ this.beep({freq:140, dur:0.3, type:'sine', vol:0.3, slide:-240}); },
+    coin(){ this.beep({freq:880, dur:0.1, type:'square', vol:0.24, slide:180}); },
     gameOver(){ this.beep({freq:360, dur:0.18, type:'sine', vol:0.27, slide:-140}); setTimeout(()=>this.beep({freq:240, dur:0.22, type:'sine', vol:0.24, slide:-90}), 180); }
   };
 
@@ -155,16 +136,14 @@
   const START_POINTS = 10000;
   let points=START_POINTS, running=false, paused=false, started=false, time=0, speed=4.2, baseSpeed=4.2, dist=0;
   let groundY = Math.floor(H*0.8);
-  let spawnTimer = 0, obstacleTimer=0, last=0, speedUpTimer=0;
+  let spawnTimer = 0, obstacleTimer=0, platformTimer=0, coinTimer=0, last=0, speedUpTimer=0;
 
   const LABELS = ['ChatGPT','Midjourney','Runway','Photoshop','Figma','LumaLabs','Imagica','Kling','Illustrator','After Effects','Adobe','Pika'];
-  const brandColors = {
-    ChatGPT:'#00A67E', Midjourney:'#7a5cff', Runway:'#15ff9b', Photoshop:'#31A8FF', Figma:'#F24E1E',
-    LumaLabs:'#57f287', Imagica:'#f7a72a', Kling:'#00c2ff', Illustrator:'#FF9A00', 'After Effects':'#9999ff', Adobe:'#FF0000', Pika:'#ff8bd1'
-  };
+  const brandColors = { ChatGPT:'#00A67E', Midjourney:'#7a5cff', Runway:'#15ff9b', Photoshop:'#31A8FF', Figma:'#F24E1E',
+    LumaLabs:'#57f287', Imagica:'#f7a72a', Kling:'#00c2ff', Illustrator:'#FF9A00', 'After Effects':'#9999ff', Adobe:'#FF0000', Pika:'#ff8bd1' };
 
-  // Player (трохи яскравіший)
-  const player = { x:120, y:0, w:46, h:58, vy:0, onGround:false };
+  // Player (яскравий)
+  const player = { x:120, y:0, w:46, h:58, vy:0, onGround:false, onPlatform:false };
   function drawPlayer(){
     const x=player.x, y=player.y;
     ctx.fillStyle='#2b2d42'; ctx.fillRect(x+8, y+player.h-10, 10, 10); ctx.fillRect(x+28, y+player.h-10, 10, 10);
@@ -178,24 +157,20 @@
     ctx.strokeStyle='#222'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(x+21, y+12, 8, 0, Math.PI); ctx.stroke();
   }
 
-  // Monsters
+  // Entities
   const monsters = [];
   const attached  = [];
+  const obstacles = [];
+  const platforms = []; // one-way (landing only from above)
+  const coins = [];
 
   function newMonster(){
     const label = LABELS[Math.floor(Math.random()*LABELS.length)];
     const size = Math.floor(44 + Math.random()*26);
     const y = groundY - size - 10;
-    return {
-      kind:'monster',
-      x: W+40, y, w: size+22, h: size,
-      vx:-speed, label, color: brandColors[label] || randColor(),
-      attached:false, ix: iconImgs[label] || null
-    };
+    return { kind:'monster', x: W+40, y, w: size+22, h: size, vx:-speed, label, color: brandColors[label] || randColor(), attached:false, ix: iconImgs[label] || null };
   }
 
-  // Obstacles
-  const obstacles = [];
   function newObstacle(){
     const choices = ['spike','wheel','drone','pit'];
     const pick = (time < 8) ? (Math.random()<0.55 ? 'spike':'wheel') : choices[Math.floor(Math.random()*choices.length)];
@@ -217,7 +192,21 @@
     return { kind:'spike', x:W+40, y: groundY - h, w, h };
   }
 
-  // Parallax — світліші яскраві палітри
+  function newPlatform(){
+    const w = 120 + Math.random()*200;
+    const y = groundY - (90 + Math.random()*160); // висота від землі
+    const h = 14;
+    const x = W + 60;
+    return { kind:'platform', x, y, w, h, color:'#fff07a' };
+  }
+
+  function spawnCoinsLine(x,y,count=5,gap=26){
+    for(let i=0;i<count;i++){
+      coins.push({ x:x+i*gap, y:y, r:8, v:200 + (Math.random()<0.2?300:0), phase:Math.random()*Math.PI*2 });
+    }
+  }
+
+  // Parallax (яскраво)
   const layers=[
     {speed:.25,color:'#79b8ff',hills:[]},
     {speed:.55,color:'#5dd1ff',hills:[]},
@@ -235,11 +224,10 @@
   }
 
   // Physics
-  const GRAV=0.78, JUMP=16;
-
+  const GRAV=0.85, JUMP=18; // вище й м’якше для платформ
   function jump(){
     if(!running||paused) return;
-    if(player.onGround){ player.vy = -JUMP; player.onGround=false; Audio.jump(); }
+    if(player.onGround){ player.vy = -JUMP; player.onGround=false; player.onPlatform=false; Audio.jump(); }
   }
   addEventListener('keydown', e=>{
     if(e.code==='Space'||e.code==='ArrowUp'){ e.preventDefault(); jump(); }
@@ -255,9 +243,9 @@
 
   function reset(){
     points=START_POINTS; speed=baseSpeed=4.2; time=0; dist=0;
-    monsters.length=0; attached.length=0; obstacles.length=0;
-    player.y = groundY - player.h; player.vy=0; player.onGround=true;
-    spawnTimer=0; obstacleTimer=0; speedUpTimer=0;
+    monsters.length=0; attached.length=0; obstacles.length=0; platforms.length=0; coins.length=0;
+    player.y = groundY - player.h; player.vy=0; player.onGround=true; player.onPlatform=false;
+    spawnTimer=0; obstacleTimer=0; platformTimer=0; coinTimer=0; speedUpTimer=0;
   }
   function startGame(){
     started=true; running=true; paused=false; overlay.style.display='none';
@@ -272,30 +260,24 @@
     overlay.querySelector('.card').innerHTML = `
       <h1>Game Over</h1>
       <p>${msg}</p>
-      <p>You survived <b>${fmt(time)}s</b> with <b>${Math.max(0,Math.floor(points))}</b> points. Attached monsters: <b>${attached.length}</b>.</p>
+      <p>You survived <b>${fmt(time)}s</b> with <b>${Math.max(0,Math.floor(points))}</b> money. Attached monsters: <b>${attached.length}</b>.</p>
       <button class="btn" id="retryBtn">Retry</button>
     `;
     overlay.querySelector('#retryBtn').addEventListener('click', ()=>{ Audio.safeResume(); startGame(); });
   }
 
-  // Helpers
+  // Helpers & drawing
   function skyAndParallax(){
-    // яскраве небо
     const sky = ctx.createLinearGradient(0,0,0,H);
-    sky.addColorStop(0,'#9ee8ff');
-    sky.addColorStop(0.6,'#89f6d6');
-    sky.addColorStop(1,'#b3ffa8');
+    sky.addColorStop(0,'#9ee8ff'); sky.addColorStop(0.6,'#89f6d6'); sky.addColorStop(1,'#b3ffa8');
     ctx.fillStyle=sky; ctx.fillRect(0,0,W,H);
 
-    // легкі «сонячні» промені
-    ctx.save();
-    ctx.globalAlpha=0.12;
+    // промені
+    ctx.save(); ctx.globalAlpha=0.12;
     for(let i=0;i<5;i++){
       const x = (i*W/5 + (dist*0.15)) % (W+200) - 100;
       const g = ctx.createLinearGradient(x,0,x+120,H);
-      g.addColorStop(0,'rgba(255,255,255,.0)');
-      g.addColorStop(0.5,'rgba(255,255,255,.9)');
-      g.addColorStop(1,'rgba(255,255,255,0)');
+      g.addColorStop(0,'rgba(255,255,255,.0)'); g.addColorStop(0.5,'rgba(255,255,255,.9)'); g.addColorStop(1,'rgba(255,255,255,0)');
       ctx.fillStyle=g; ctx.fillRect(x,0,120,H);
     }
     ctx.restore();
@@ -310,7 +292,7 @@
       });
     });
 
-    // «земля» — світла
+    // земля
     ctx.fillStyle='#d9ffe2'; ctx.fillRect(0, groundY, W, H-groundY);
     ctx.fillStyle='rgba(0,0,0,.06)';
     for(let x= -((dist*2)%60); x<W; x+=60) ctx.fillRect(x, groundY+8, 30, 6);
@@ -322,59 +304,63 @@
   }
   function roundRect(x,y,w,h,r){ const rr=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y, x+w,y+h, rr); ctx.arcTo(x+w,y+h, x,y+h, rr); ctx.arcTo(x,y+h, x,y, rr); ctx.arcTo(x,y, x+w,y, rr); ctx.closePath(); }
   function drawPlate(x,y,w,h,r=12){
-    // непрозора біла плашка під логотип
-    ctx.save();
-    ctx.shadowColor='rgba(0,0,0,.2)'; ctx.shadowBlur=18; ctx.shadowOffsetY=6;
-    ctx.fillStyle='#ffffff';
-    roundRect(x, y, w, h, r); ctx.fill();
-    ctx.restore();
+    ctx.save(); ctx.shadowColor='rgba(0,0,0,.2)'; ctx.shadowBlur=18; ctx.shadowOffsetY=6; ctx.fillStyle='#ffffff';
+    roundRect(x, y, w, h, r); ctx.fill(); ctx.restore();
     ctx.strokeStyle='rgba(0,0,0,.06)'; ctx.lineWidth=2; roundRect(x, y, w, h, r); ctx.stroke();
   }
-
+  function drawPlatform(p){
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,.18)'; ctx.shadowBlur=12; ctx.shadowOffsetY=6;
+    const g=ctx.createLinearGradient(p.x, p.y, p.x, p.y+p.h);
+    g.addColorStop(0,'#fff07a'); g.addColorStop(1,'#ffd166');
+    ctx.fillStyle=g; roundRect(p.x, p.y, p.w, p.h, 10); ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle='rgba(0,0,0,.12)'; ctx.lineWidth=2; roundRect(p.x, p.y, p.w, p.h, 10); ctx.stroke();
+  }
+  function drawCoin(c){
+    const r=c.r;
+    ctx.save();
+    ctx.translate(c.x, c.y + Math.sin(c.phase)*2); // легка «пульсація»
+    ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2);
+    const g=ctx.createLinearGradient(-r,-r,r,r);
+    g.addColorStop(0,'#fff6a1'); g.addColorStop(1,'#ffd166');
+    ctx.fillStyle=g; ctx.fill();
+    ctx.strokeStyle='#c79a00'; ctx.lineWidth=2; ctx.stroke();
+    // блиск
+    ctx.globalAlpha=.35; ctx.beginPath(); ctx.arc(-3,-3,r*0.55,0,Math.PI*2); ctx.fillStyle='#ffffff'; ctx.fill();
+    ctx.restore();
+  }
   function drawMonster(m){
-    // плашка
     drawPlate(m.x, m.y, m.w, m.h, 14);
-
-    if(m.ix){
-      ctx.drawImage(m.ix, m.x+6, m.y+6, m.w-12, m.h-12);
-    }else{
+    if(m.ix){ ctx.drawImage(m.ix, m.x+6, m.y+6, m.w-12, m.h-12); }
+    else{
       const r=10; ctx.fillStyle=m.color; roundRect(m.x+6, m.y+6, m.w-12, m.h-12, r); ctx.fill();
-      ctx.fillStyle='#000000'; ctx.globalAlpha=0.8;
-      ctx.font='700 12px system-ui,Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText(m.label, m.x+m.w/2, m.y+m.h/2);
-      ctx.globalAlpha=1;
+      ctx.fillStyle='#000'; ctx.globalAlpha=0.8; ctx.font='700 12px system-ui,Arial'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(m.label, m.x+m.w/2, m.y+m.h/2); ctx.globalAlpha=1;
     }
-
     if(m.attached){
       ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.lineWidth=2;
       ctx.beginPath(); ctx.moveTo(m.x+m.w/2, m.y+m.h/2); ctx.lineTo(player.x+player.w/2, player.y+player.h/2); ctx.stroke();
     }
   }
-
   function drawObstacle(o){
     if(o.kind==='pit'){
-      ctx.fillStyle='#88d8ff';
-      ctx.fillRect(o.x, groundY, o.w, H-groundY);
+      ctx.fillStyle='#88d8ff'; ctx.fillRect(o.x, groundY, o.w, H-groundY);
       ctx.fillStyle='#63c3ff'; ctx.fillRect(o.x-2, groundY, 2, 12); ctx.fillRect(o.x+o.w, groundY, 2, 12);
       return;
     }
     if(o.kind==='spike'){
       const base=groundY, w=o.w, h=o.h, x=o.x;
-      ctx.fillStyle='#ff3366';
-      ctx.beginPath(); ctx.moveTo(x,base); ctx.lineTo(x+w/2, base-h); ctx.lineTo(x+w, base); ctx.closePath(); ctx.fill();
-      ctx.strokeStyle='rgba(0,0,0,.15)'; ctx.stroke();
-      return;
+      ctx.fillStyle='#ff3366'; ctx.beginPath(); ctx.moveTo(x,base); ctx.lineTo(x+w/2, base-h); ctx.lineTo(x+w, base); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle='rgba(0,0,0,.15)'; ctx.stroke(); return;
     }
     if(o.kind==='wheel'){
       const x=o.x+o.r, y=o.y+o.r;
       ctx.save(); ctx.translate(x,y); ctx.rotate(o.spin||0);
       ctx.fillStyle='#ffd166'; ctx.beginPath(); ctx.arc(0,0,o.r,0,Math.PI*2); ctx.fill();
-      ctx.strokeStyle='#0b1021'; ctx.lineWidth=2;
-      ctx.beginPath();
+      ctx.strokeStyle='#0b1021'; ctx.lineWidth=2; ctx.beginPath();
       for(let i=0;i<6;i++){ ctx.moveTo(0,0); ctx.lineTo(o.r*Math.cos(i*Math.PI/3), o.r*Math.sin(i*Math.PI/3)); }
-      ctx.stroke();
-      ctx.restore();
-      return;
+      ctx.stroke(); ctx.restore(); return;
     }
     if(o.kind==='drone'){
       const {x,y,w,h}=o;
@@ -406,19 +392,52 @@
     if(speedUpTimer>5){ speedUpTimer=0; baseSpeed+=0.42; Audio.speedUp(); }
     speed += (baseSpeed - speed)*0.02;
 
-    // spawn monsters
-    spawnTimer -= dt;
+    // spawn monsters / obstacles / platforms / coins
+    spawnTimer -= dt; obstacleTimer -= dt; platformTimer -= dt; coinTimer -= dt;
     const spawnEvery = Math.max(0.7, 1.8 - time*0.05);
     if(spawnTimer<=0){ monsters.push(newMonster()); spawnTimer=spawnEvery; }
-
-    // spawn obstacles
-    obstacleTimer -= dt;
     const obsEvery = Math.max(0.9, 2.1 - time*0.04);
     if(obstacleTimer<=0){ obstacles.push(newObstacle()); obstacleTimer=obsEvery; }
+    const platEvery = Math.max(1.6, 3.6 - time*0.03);
+    if(platformTimer<=0){ 
+      const p=newPlatform(); platforms.push(p); 
+      // монети над платформою
+      spawnCoinsLine(p.x+20, p.y-18, 4 + (Math.random()*3|0), 28);
+      platformTimer=platEvery; 
+    }
+    const coinEvery = 2.2;
+    if(coinTimer<=0){
+      // «доріжка» монет біля землі
+      const y = groundY - 26 - Math.random()*24;
+      spawnCoinsLine(W+80, y, 5 + (Math.random()*4|0), 26);
+      coinTimer = coinEvery + Math.random()*1.5;
+    }
 
     // physics
     player.vy += GRAV; player.y += player.vy;
-    if(player.y + player.h >= groundY){ player.y = groundY - player.h; player.onGround = true; }
+    player.onGround=false; player.onPlatform=false;
+
+    // land on ground
+    if(player.y + player.h >= groundY){
+      player.y = groundY - player.h; player.onGround = true; player.vy=0;
+    }
+
+    // one-way platforms: land only if falling and feet cross the top surface
+    for(let i=platforms.length-1;i>=0;i--){
+      const p=platforms[i];
+      const prevBottom = player.y - player.vy + player.h; // позиція до кроку
+      const nowBottom  = player.y + player.h;
+      const withinX = (player.x + player.w*0.5) > p.x && (player.x + player.w*0.5) < (p.x + p.w);
+      if(player.vy >= 0 && withinX && prevBottom <= p.y && nowBottom >= p.y){
+        player.y = p.y - player.h;
+        player.vy = 0;
+        player.onGround = true;
+        player.onPlatform = true;
+      }
+      // move platform left
+      p.x += -speed;
+      if(p.x + p.w < -120) platforms.splice(i,1);
+    }
 
     // update monsters
     for(let i=monsters.length-1;i>=0;i--){
@@ -439,39 +458,54 @@
       const o=obstacles[i];
       if(o.kind==='pit'){
         o.x += -speed;
-        if(player.onGround && (player.x+player.w*0.6>o.x) && (player.x+player.w*0.4<o.x+o.w)){
+        // Тільки якщо стоїмо на землі (не на платформі)
+        if(player.onGround && !player.onPlatform && (player.y+player.h>=groundY-0.5)
+           && (player.x+player.w*0.6>o.x) && (player.x+player.w*0.4<o.x+o.w)){
           Audio.pit(); gameOver('You fell into a pit!');
           return;
         }
         if(o.x + o.w < -80) obstacles.splice(i,1);
       }else if(o.kind==='drone'){
         o.x += -speed*1.1;
-        o.phase += dt*4;
-        o.y += Math.sin(o.phase)*0.9;
-        if(rectsIntersect(player,o)){ points -= 250; Audio.hit(); knockUp(); }
+        o.phase += dt*4; o.y += Math.sin(o.phase)*0.9;
+        if(rectsIntersect(player,o)){ points -= 200; Audio.hit(); knockUp(); }
         if(o.x + o.w < -100) obstacles.splice(i,1);
       }else if(o.kind==='wheel'){
         o.x += -speed*1.2; o.spin = (o.spin||0) + dt*6;
-        if(rectsIntersect(player,{x:o.x,y:o.y,w:o.w,h:o.h})){ points -= 300; Audio.hit(); knockUp(); }
+        if(rectsIntersect(player,{x:o.x,y:o.y,w:o.w,h:o.h})){ points -= 250; Audio.hit(); knockUp(); }
         if(o.x + o.w < -100) obstacles.splice(i,1);
       }else if(o.kind==='spike'){
         o.x += -speed;
-        if(rectsIntersect(player,o)){ points -= 200; Audio.hit(); knockUp(); }
+        if(rectsIntersect(player,o)){ points -= 180; Audio.hit(); knockUp(); }
         if(o.x + o.w < -80) obstacles.splice(i,1);
       }
     }
 
-    // drain from attached
+    // coins
+    for(let i=coins.length-1;i>=0;i--){
+      const c=coins[i];
+      c.phase += dt*6;
+      c.x += -speed;
+      // колізія з монетою (просте коло прямокутник)
+      const cx = c.x, cy = c.y + Math.sin(c.phase)*2, r=c.r;
+      if(circleRectOverlap(cx,cy,r, player.x,player.y,player.w,player.h)){
+        points += c.v; Audio.coin(); coins.splice(i,1);
+        continue;
+      }
+      if(c.x < -120) coins.splice(i,1);
+    }
+
+    // drain від прилиплих
     const drainRatePer = 22;
-    if(attached.length){ points -= attached.length * drainRatePer * dt; if(points<=0){ points=0; gameOver('Your creative energy was fully drained!'); return; } }
+    if(attached.length){ points -= attached.length * drainRatePer * dt; if(points<=0){ points=0; gameOver('Your money ran out!'); return; } }
 
     // draw
     skyAndParallax();
+    ctx.globalAlpha=.18; for(let i=0;i<12;i++){ const x=(i*180 - (dist*0.5)%(W+220)) - 120, y=60+(i%5)*28; cloud(x,y); } ctx.globalAlpha=1;
 
-    // легкі «хмарки»
-    ctx.globalAlpha=.2; for(let i=0;i<12;i++){ const x=(i*180 - (dist*0.5)%(W+220)) - 120, y=60+(i%5)*28; cloud(x,y); } ctx.globalAlpha=1;
-
+    platforms.forEach(drawPlatform);
     obstacles.forEach(drawObstacle);
+    coins.forEach(drawCoin);
     monsters.forEach(drawMonster);
     drawPlayer();
 
@@ -484,12 +518,14 @@
     requestAnimationFrame(loop);
   }
 
-  function knockUp(){
-    player.vy = -Math.max(10, JUMP*0.75);
-    player.onGround=false;
-  }
-
+  function knockUp(){ player.vy = -Math.max(10, JUMP*0.72); player.onGround=false; player.onPlatform=false; }
   function cloud(x,y){ ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2); ctx.arc(x+18,y+6,22,0,Math.PI*2); ctx.arc(x+44,y,16,0,Math.PI*2); ctx.arc(x+60,y+6,12,0,Math.PI*2); ctx.fill(); }
+  function circleRectOverlap(cx, cy, r, rx, ry, rw, rh){
+    const closestX = Math.max(rx, Math.min(cx, rx+rw));
+    const closestY = Math.max(ry, Math.min(cy, ry+rh));
+    const dx = cx - closestX, dy = cy - closestY;
+    return dx*dx + dy*dy <= r*r;
+  }
 
   // ======== (7) Boot =========
   resize(); buildHills();
