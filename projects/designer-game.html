@@ -200,7 +200,7 @@
     return { kind:'platform', x, y, w, h, color:'#fff07a' };
   }
 
-  function spawnCoinsLine(x,y,count=5,gap=26){
+  function spawnCoinsLine(x,y,count=3,gap=26){
     for(let i=0;i<count;i++){
       coins.push({ x:x+i*gap, y:y, r:8, v:200 + (Math.random()<0.2?300:0), phase:Math.random()*Math.PI*2 });
     }
