@@ -556,7 +556,7 @@ Photoshop:`<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 19
     overlay.querySelector('.card').innerHTML = `
       <h1>Game Over</h1>
       <p>${msg}</p>
-      <p>You survived <b>${fmt(time)}s</b> with <b>${Math.max(0,Math.floor(points))}</b> money. Attached monsters: <b>${attached.length}</b>.</p>
+      <p>You survived <b>${fmt(time)}s</b> with <b>${Math.max(0,Math.floor(points))}</b> money. Subscriptions: <b>${attached.length}</b>.</p>
       <button class="btn" id="retryBtn">Retry</button>
     `;
     overlay.querySelector('#retryBtn').addEventListener('click', ()=>{ Audio.safeResume(); startGame(); });
