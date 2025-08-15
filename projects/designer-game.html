@@ -202,7 +202,7 @@
 
   function spawnCoinsLine(x,y,count=5,gap=26){
     for(let i=0;i<count;i++){
-      coins.push({ x:x+i*gap, y:y, r:8, v:200 + (Math.random()<0.2?300:0), phase:Math.random()*Math.PI*2 });
+      coins.push({ x:x+i*gap, y:y, r:8, v:100 + (Math.random()<0.2?300:0), phase:Math.random()*Math.PI*2 });
     }
   }
 
@@ -496,7 +496,7 @@
     }
 
     // drain від прилиплих
-    const drainRatePer = 22;
+    const drainRatePer = 42;
     if(attached.length){ points -= attached.length * drainRatePer * dt; if(points<=0){ points=0; gameOver('Your money ran out!'); return; } }
 
     // draw
