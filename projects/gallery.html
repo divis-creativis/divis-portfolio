@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fun Comics — Галерея</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #fafafa;
+      color: #222;
+    }
+    header {
+      padding: 1rem;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      font-weight: bold;
+    }
+    .gallery {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+      grid-template-columns: 1fr;
+    }
+    .gallery img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+    /* планшети */
+    @media (min-width: 600px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    /* ноутбуки */
+    @media (min-width: 900px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    /* великі екрани */
+    @media (min-width: 1200px) {
+      .gallery {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>divis-creativis — Галерея</header>
+  <main class="gallery">
+    <img src="da0a4bb5-0c40-4ae4-b0a7-95d3c916b4ba.png" alt="Poster 1">
+    <img src="https://picsum.photos/600/800?random=1" alt="Poster 2">
+    <img src="https://picsum.photos/600/800?random=2" alt="Poster 3">
+    <img src="https://picsum.photos/600/800?random=3" alt="Poster 4">
+    <img src="https://picsum.photos/600/800?random=4" alt="Poster 5">
+  </main>
+</body>
+</html>
