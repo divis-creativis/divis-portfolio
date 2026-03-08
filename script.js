@@ -46,6 +46,12 @@ const projects = [
     name: 'bravefactory',
     cover: 'img/brave.gif',
     page: 'projects/bravefactory.html'
+  },
+  {
+    id: 'braindance_comics',
+    name: 'braindance_comics',
+    cover: 'img/braindance.png',
+    page: 'projects/braindance_comics.html'
   }
 ];
 
