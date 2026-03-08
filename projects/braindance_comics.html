@@ -269,14 +269,14 @@
 
     async function renderComic() {
       comicGrid.innerHTML = '';
-      statusEl.textContent = 'Завантаження кадрів...';
+      // statusEl.textContent = 'Завантаження кадрів...';
       reloadBtn.disabled = true;
 
       try {
         const images = await fetchImagesFromGitHub();
 
         if (!images.length) {
-          statusEl.textContent = 'У вибраній папці не знайдено жодної картинки.';
+         // statusEl.textContent = 'У вибраній папці не знайдено жодної картинки.';
           for (let i = 0; i < PANELS_COUNT; i++) {
             comicGrid.appendChild(createEmptyPanel('Немає зображень у папці', i));
           }
@@ -298,7 +298,7 @@
         // statusEl.textContent = `Готово: показано ${selected.length} випадкових кадрів з папки ${IMAGES_FOLDER}.`;
       } catch (error) {
         console.error(error);
-        statusEl.textContent = 'Не вдалося підвантажити картинки. Перевір назву репозиторію, гілку та шлях до папки.';
+       // statusEl.textContent = 'Не вдалося підвантажити картинки. Перевір назву репозиторію, гілку та шлях до папки.';
         for (let i = 0; i < PANELS_COUNT; i++) {
           comicGrid.appendChild(createEmptyPanel('Помилка завантаження', i));
         }
