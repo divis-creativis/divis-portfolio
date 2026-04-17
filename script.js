@@ -12,6 +12,12 @@ const projects = [
     cover: 'img/advertising.gif',
     page: 'projects/advertising.html'
   },
+   {
+    id: 'gallery',
+    name: 'gallery',
+    cover: 'img/gallery.gif',
+    page: 'projects/gallery.html'
+  },
   {
     id: 'braindance_comics',
     name: 'braindance_comics',
