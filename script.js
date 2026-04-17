@@ -5,48 +5,7 @@
  */
 
 const projects = [
-  {
-    id: 'crimetree',
-    name: 'crimetree',
-    cover: 'img/crimetree.gif',
-    page: 'projects/crimetree.html'
-  },
-  {
-    id: 'chornobyl',
-    name: 'chornobyl',
-    cover: 'img/chornobyl.jpg',
-    page: 'projects/chornobyl.html'
-  },
-  {
-    id: 'bud',
-    name: 'bud',
-    cover: 'img/bud_book.gif',
-    page: 'projects/bud.html'
-  },
-  {
-    id: 'goodwine',
-    name: 'goodwine',
-    cover: 'img/goodwine.gif',
-    page: 'projects/goodwine.html'
-  },
-  {
-    id: 'eurovision',
-    name: 'eurovision',
-    cover: 'img/eurovision.gif',
-    page: 'projects/eurovision.html'
-  },
-  {
-    id: 'rocket',
-    name: 'rocket',
-    cover: 'img/rocket.gif',
-    page: 'projects/rocket.html'
-  },
-  {
-    id: 'bravefactory',
-    name: 'bravefactory',
-    cover: 'img/brave.gif',
-    page: 'projects/bravefactory.html'
-  },
+  
   {
     id: 'advertising',
     name: 'advertising',
