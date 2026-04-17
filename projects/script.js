@@ -15,43 +15,37 @@ const projects = [
     id: 'chornobyl',
     name: 'chornobyl',
     cover: 'img/chornobyl.jpg',
-    page: 'projects/chornobyl.html'
+    page: 'chornobyl.html'
   },
   {
     id: 'bud',
     name: 'bud',
     cover: 'img/bud_book.gif',
-    page: 'projects/bud.html'
+    page: 'bud.html'
   },
   {
     id: 'goodwine',
     name: 'goodwine',
     cover: 'img/goodwine.gif',
-    page: 'projects/goodwine.html'
+    page: 'goodwine.html'
   },
   {
     id: 'eurovision',
     name: 'eurovision',
     cover: 'img/eurovision.gif',
-    page: 'projects/eurovision.html'
+    page: 'eurovision.html'
   },
   {
     id: 'rocket',
     name: 'rocket',
     cover: 'img/rocket.gif',
-    page: 'projects/rocket.html'
+    page: 'rocket.html'
   },
   {
     id: 'bravefactory',
     name: 'bravefactory',
     cover: 'img/brave.gif',
-    page: 'projects/bravefactory.html'
-  },
-  {
-    id: 'braindance_comics',
-    name: 'braindance_comics',
-    cover: 'img/braindance.png',
-    page: 'projects/braindance_comics.html'
+    page: 'bravefactory.html'
   }
 ];
 
