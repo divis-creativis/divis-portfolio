@@ -50,7 +50,7 @@ const projects = [
   {
     id: 'advertising',
     name: 'advertising',
-    cover: 'img/brave.gif',
+    cover: 'img/advertising.png',
     page: 'projects/advertising.html'
   },
   {
