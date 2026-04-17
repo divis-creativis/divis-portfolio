@@ -9,7 +9,7 @@ const projects = [
   {
     id: 'advertising',
     name: 'advertising',
-    cover: 'img/advertising.png',
+    cover: 'img/advertising.gif',
     page: 'projects/advertising.html'
   },
   {
